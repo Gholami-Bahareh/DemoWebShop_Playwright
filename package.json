@@ -11,5 +11,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@playwright/test": "^1.56.1"
+  },
+  "devDependencies": {
+    "allure-playwright": "^3.4.2"
+  }
 }
