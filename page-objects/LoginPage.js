@@ -11,6 +11,8 @@ class LoginPage {
         this.rememberMeCheckbox = page.locator('#RememberMe');
         this.forgotPasswordLink = page.locator('a[href="/passwordrecovery"]');
         this.registerButton = page.locator('.button-1.register-button'); 
+        this.invalidEmailMessage = page.locator('[data-valmsg-for="Email"]');
+
 
         // this.<locatorname> = page.locator (<locator CSS>) ;
   }
@@ -22,9 +24,6 @@ class LoginPage {
         await this.loginButton.click();
     }
 
-    
-
-    
     
 }
 

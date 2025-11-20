@@ -39,15 +39,40 @@ test('Login with empty fields', async ({ page }) => {
     await expect(loginPage.errorMessage).toBeVisible();
 });
 
-test.only('Login-Logout', async ({ page }) => {
+test('Login and logout flow', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const homePage = new HomePage(page);
+    const validEmail = 'validemail@hotmail.com';
+
     await page.goto('/login');  
 
-    await loginPage.login('validemail@hotmail.com','123456');
+    await loginPage.login(validEmail,'123456');
     await expect(homePage.logoutLink).toBeVisible();
+    await expect(homePage.accountLink).toHaveText(validEmail);
     await homePage.logoutLink.click();
-    await expect(page.locator('a[href="/login"]')).toBeVisible();
+    await expect(homePage.loginLink).toBeVisible();
+
+});
+
+test('Login with invalid email format', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await page.goto('/login'); 
+    
+    await loginPage.login('invalidemailformat','');
+    await expect(loginPage.invalidEmailMessage).toBeVisible();
+});
+
+test('Forgot Password flow', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    const validEmail = 'validemail@hotmail.com';
+    await page.goto('/login'); 
+
+    await loginPage.forgotPasswordLink.click();
+    await expect(page).toHaveURL(/.*passwordrecovery/);
+    await expect(page.locator('[for="Email"]')).toBeVisible();
+    await page.locator('#Email').fill(validEmail);
+    await page.locator('input[value="Recover"]').click();
+    await expect(page.locator('div[class="result"]')).toHaveText('Email with instructions has been sent to you.')
 
 });
 
