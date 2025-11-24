@@ -4,7 +4,7 @@ class RegisterPage {
 
         //Locators
         this.genderMaleRadio = page.locator('#gender-male');
-        this.genderFemaleRadio = page.locator('##gender-female');
+        this.genderFemaleRadio = page.locator('#gender-female');
         this.firstnameInput = page.locator('#FirstName');
         this.lastnameInput = page.locator('#LastName');
         this.emailInput = page.locator('#Email');
