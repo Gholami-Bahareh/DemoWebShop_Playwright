@@ -18,6 +18,9 @@ class LoginPage {
   }
 
     //Methods / Functions
+    async goto(){
+        await this.page.goto('/login');
+    }
     async login(email,password){
         await this.emailInput.fill(email);
         await this.passwordInput.fill(password);

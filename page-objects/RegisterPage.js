@@ -15,7 +15,10 @@ class RegisterPage {
     }
     
      //Methods / Functions
-    async register(firstname, lastname, email,password,){
+    async goto(){
+        await this.page.goto('/register');  
+    }
+     async register(firstname, lastname, email,password,){
         await this.genderMaleRadio.check();
         await this.firstnameInput.fill(firstname);
         await this.lastnameInput.fill(lastname);

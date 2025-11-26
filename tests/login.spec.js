@@ -4,7 +4,7 @@ const { HomePage } = require('../page-objects/HomePage');
 
 test('UI element should be visible', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await page.goto('/login');
+    await loginPage.goto();
 
     await expect(loginPage.emailInput).toBeVisible();
     await expect(loginPage.passwordInput).toBeVisible();
@@ -16,7 +16,7 @@ test('UI element should be visible', async ({ page }) => {
 
 test('Succesful Login', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await page.goto('/login');
+    await loginPage.goto();
 
     await loginPage.login('validemail@hotmail.com','123456');
     await expect(page.locator('a[href="/logout"]')).toBeVisible();
@@ -25,7 +25,7 @@ test('Succesful Login', async ({ page }) => {
 
 test('Unsuccesful Login', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await page.goto('/login');
+    await loginPage.goto();
 
     await loginPage.login('invalidemail@hotmail.com','123456');
     await expect(loginPage.errorMessage).toBeVisible();
@@ -33,7 +33,7 @@ test('Unsuccesful Login', async ({ page }) => {
 
 test('Login with empty fields', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await page.goto('/login');  
+    await loginPage.goto();  
 
     await loginPage.login('','');
     await expect(loginPage.errorMessage).toBeVisible();
@@ -44,7 +44,7 @@ test('Login and logout flow', async ({ page }) => {
     const homePage = new HomePage(page);
     const validEmail = 'validemail@hotmail.com';
 
-    await page.goto('/login');  
+    await loginPage.goto();  
 
     await loginPage.login(validEmail,'123456');
     await expect(homePage.logoutLink).toBeVisible();
@@ -56,7 +56,7 @@ test('Login and logout flow', async ({ page }) => {
 
 test('Login with invalid email format', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await page.goto('/login'); 
+    await loginPage.goto(); 
     
     await loginPage.login('invalidemailformat','');
     await expect(loginPage.invalidEmailMessage).toBeVisible();
@@ -65,7 +65,7 @@ test('Login with invalid email format', async ({ page }) => {
 test('Forgot Password flow', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const validEmail = 'validemail@hotmail.com';
-    await page.goto('/login'); 
+    await loginPage.goto(); 
 
     await loginPage.forgotPasswordLink.click();
     await expect(page).toHaveURL(/.*passwordrecovery/);
