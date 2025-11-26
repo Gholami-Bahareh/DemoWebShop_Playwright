@@ -1,14 +1,16 @@
 const { test, expect } = require('@playwright/test');
 const { RegisterPage } = require('../page-objects/RegisterPage');
-const { generateRandomEmail  } = require('../utils/helpers');
+const { randomEmail , randomPassword  } = require('../utils/helpers');
 
-test('Successful Registration', async ({ page }) => {
+test.only('Successful Registration', async ({ page }) => {
     const registerPage = new RegisterPage(page);
-    const email = generateRandomEmail();
+    
+    const email = randomEmail(); 
+    const password = randomPassword();
     await page.goto('/register');
 
-    await registerPage.register('John', 'Doe', email  , 'Password123');
-    await expect(page.locator('.result')).toHaveText('Your registration completed');
+    await registerPage.register('John', 'Doe', email  , password);
+    await expect(page.locator('div[class=result]')).toHaveText('Your registration completed');
 
 
 });
