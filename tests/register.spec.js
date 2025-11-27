@@ -30,17 +30,32 @@ test ('UI element should be visible', async ({ page }) => {
     await expect(registerPage.registerButton).toBeVisible();
 
 });
-test.only ('Invalid Email', async ({ page }) => {
+test ('Invalid Email', async ({ page }) => {
     const registerPage = new RegisterPage(page);
     const email = 'invalidemailformat';
     const password = randomPassword();
     const error = page.locator('span[for="Email"]');
 
     await registerPage.goto();
-
     await registerPage.register('John', 'Doe', email  , password);
 
     await expect(error).toBeVisible();
     await expect(error).toHaveText('Wrong email');
+
+});
+
+test.only ('Email already exists', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
+    
+    const email = randomEmail(); 
+    const password = randomPassword();
+    const error = page.locator("div[class='validation-summary-errors'] ul li");
+
+    await registerPage.goto();
+    await registerPage.register('John', 'Doe', email  , password);
+    await registerPage.goto();
+    await registerPage.register('John', 'Doe', email  , password);
+    await expect(error).toBeVisible();
+    await expect(error).toHaveText('The specified email already exists');
 
 });
