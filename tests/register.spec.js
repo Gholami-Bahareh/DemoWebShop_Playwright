@@ -44,7 +44,7 @@ test ('Invalid Email', async ({ page }) => {
 
 });
 
-test.only ('Email already exists', async ({ page }) => {
+test ('Email already exists', async ({ page }) => {
     const registerPage = new RegisterPage(page);
     
     const email = randomEmail(); 
@@ -59,3 +59,41 @@ test.only ('Email already exists', async ({ page }) => {
     await expect(error).toHaveText('The specified email already exists');
 
 });
+
+test ('Required fields validation', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
+    await registerPage.goto();
+    await registerPage.registerButton.click();
+
+    await expect(registerPage.firstNameError).toBeVisible();
+    await expect(registerPage.firstNameError).toHaveText('First name is required.');
+    await expect(registerPage.lastNameError).toBeVisible();
+    await expect(registerPage.lastNameError).toHaveText('Last name is required.');
+    await expect(registerPage.emailError).toBeVisible();
+    await expect(registerPage.emailError).toHaveText('Email is required.');
+    await expect(registerPage.passwordError).toBeVisible();
+    await expect(registerPage.passwordError).toHaveText('Password is required.');
+    await expect(registerPage.confirmPasswordError).toBeVisible();
+    await expect(registerPage.confirmPasswordError).toHaveText('Password is required.');
+});
+
+test ('Password validation - too short', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
+    const email = randomEmail(); 
+    await registerPage.goto();
+
+    await registerPage.register('John', 'Doe', email  , '543');
+    await expect(registerPage.passwordError).toHaveText('The password should have at least 6 characters.');  
+});
+
+test ('Confirm Password mismatch', async ({ page }) => {
+    const registerPage = new RegisterPage(page);
+    await registerPage.goto();
+
+    await registerPage.passwordInput.fill('123456');
+    await registerPage.confirmPasswordInput.fill('654321');
+    await registerPage.registerButton.click();
+
+    await expect(registerPage.confirmPasswordError).toHaveText('The password and confirmation password do not match.'); 
+});
+

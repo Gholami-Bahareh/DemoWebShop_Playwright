@@ -11,6 +11,13 @@ class RegisterPage {
         this.passwordInput = page.locator('#Password');
         this.confirmPasswordInput = page.locator('#ConfirmPassword');
         this.registerButton = page.locator('#register-button');
+        this.firstNameError = page.locator('span[for="FirstName"]');
+        this.lastNameError = page.locator('span[for="LastName"]');
+        this.emailError = page.locator('span[for="Email"]');
+        this.passwordError = page.locator('span[for="Password"]');
+        this.confirmPasswordError = page.locator('span[for="ConfirmPassword"]');
+        
+
         
     }
     
