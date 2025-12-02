@@ -3,7 +3,7 @@ class LoginPage {
     constructor(page) {
         this.page = page;
 
-        //Locators
+    //Locators
         this.emailInput = page.locator('#Email');
         this.passwordInput = page.locator('#Password');
         this.loginButton = page.locator('.button-1.login-button');
