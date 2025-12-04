@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { ProductPage } = require('../page-objects/ProductPage');
 
 
-test.only('UI element should be visible', async ({ page }) => {
+test('UI element should be visible', async ({ page }) => {
     const productPage = new ProductPage(page);
     await productPage.goto();
 
@@ -18,6 +18,26 @@ test.only('UI element should be visible', async ({ page }) => {
         await productPage.validateFirstProduct();
 
     }
-
-    
 });
+
+test('products in different categories should not match', async ({ page }) => {
+    const productPage = new ProductPage(page);
+    await productPage.goto();
+    const firstProductTitle = await productPage.getFirstProductTitleFromCategory(0);
+    const firstProductURL = page.url();
+
+    const secondProductTitle = await productPage.getFirstProductTitleFromCategory(1);
+    const secondProductURL = page.url();
+    await expect(firstProductTitle).not.toBe(secondProductTitle);
+    await expect(firstProductURL).not.toBe(secondProductURL);
+
+});
+
+test.only('product details should be visible', async ({ page }) => {
+    const productPage = new ProductPage(page);
+    await productPage.goto();
+    await productPage.clickOnFirstProductFromCategory(0);
+
+
+})
+

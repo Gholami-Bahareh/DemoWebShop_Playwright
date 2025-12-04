@@ -21,12 +21,34 @@ class ProductPage {
         await this.page.goto('/');
     }
 
-    async openFirstCategory() {
-        await this.categoryItems.first().click();
+    async hasProducts() {
+        return await this.productItems.count() > 0;
     }
 
-     async hasProducts() {
-        return await this.productItems.count() > 0;
+    async getFirstProductTitleFromCategory(categoryIndex){
+        await this.categoryItems.nth(categoryIndex).click();
+        if (await this.hasProducts()){
+            return await this.productItems.first().locator('.details .product-title a').innerText();
+        }
+        else{
+            await this.subCategoryItems.first().click();
+            return await this.productItems.first().locator('.details .product-title a').innerText();       
+         }
+    }
+
+    async clickOnFirstProductFromCategory(categoryIndex){
+        await this.categoryItems.nth(categoryIndex).click();
+        if (await this.hasProducts()){
+            await this.productItems.first().click();
+        }
+        else{
+            await this.subCategoryItems.first().click();
+            await this.productItems.first().click();       
+         }
+    }
+
+    async openFirstCategory() {
+        await this.categoryItems.first().click();
     }
 
     async openFirstSubCategory() {
