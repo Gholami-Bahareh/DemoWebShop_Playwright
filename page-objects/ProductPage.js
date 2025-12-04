@@ -39,11 +39,11 @@ class ProductPage {
     async clickOnFirstProductFromCategory(categoryIndex){
         await this.categoryItems.nth(categoryIndex).click();
         if (await this.hasProducts()){
-            await this.productItems.first().click();
+            await this.productItems.first().locator('.picture').click();
         }
         else{
             await this.subCategoryItems.first().click();
-            await this.productItems.first().click();       
+            await this.productItems.first().locator('.picture').click();      
          }
     }
 

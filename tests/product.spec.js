@@ -33,11 +33,41 @@ test('products in different categories should not match', async ({ page }) => {
 
 });
 
-test.only('product details should be visible', async ({ page }) => {
+test('product details should be visible', async ({ page }) => {
     const productPage = new ProductPage(page);
     await productPage.goto();
     await productPage.clickOnFirstProductFromCategory(0);
 
+    await expect(page.locator('.product-name')).toBeVisible();
+    await expect(page.locator('.gallery .picture')).toBeVisible();
+    await expect(page.locator('.short-description')).toBeVisible();
+    await expect(page.locator('.product-reviews-overview')).toBeVisible();
+    await expect(page.locator('.overview .prices')).toBeVisible();
+    await expect(page.locator('.qty-label')).toBeVisible();
+    await expect(page.locator('.email-a-friend')).toBeVisible();
+    await expect(page.locator('.compare-products')).toBeVisible();
+    await expect(page.locator('.full-description')).toBeVisible();
+})
 
+test.only('product details should be visible for each first product!', async ({ page }) => {
+    test.setTimeout(60000);
+    const productPage = new ProductPage(page);
+    await productPage.goto();
+    const categoryCount = await productPage.categoryItems.count();
+    for(let i=0;i<categoryCount;i++){
+    await productPage.clickOnFirstProductFromCategory(i);
+
+    await expect(page.locator('.product-name')).toBeVisible();
+    await expect(page.locator('.gallery .picture')).toBeVisible();
+    // await expect(page.locator('.short-description')).toBeVisible();
+    await expect(page.locator('.product-reviews-overview')).toBeVisible();
+    await expect(page.locator('.overview .prices')).toBeVisible();
+    // await expect(page.locator('.qty-label')).toBeVisible();
+    await expect(page.locator('.email-a-friend')).toBeVisible();
+    await expect(page.locator('.compare-products')).toBeVisible();
+    await expect(page.locator('.full-description')).toBeVisible();
+
+    await productPage.goto();
+}
 })
 
