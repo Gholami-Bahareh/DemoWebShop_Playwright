@@ -49,7 +49,7 @@ test('product details should be visible', async ({ page }) => {
     await expect(page.locator('.full-description')).toBeVisible();
 })
 
-test.only('product details should be visible for each first product!', async ({ page }) => {
+test('product details should be visible for each first product!', async ({ page }) => {
     test.setTimeout(60000);
     const productPage = new ProductPage(page);
     await productPage.goto();
@@ -66,8 +66,20 @@ test.only('product details should be visible for each first product!', async ({ 
     await expect(page.locator('.email-a-friend')).toBeVisible();
     await expect(page.locator('.compare-products')).toBeVisible();
     await expect(page.locator('.full-description')).toBeVisible();
-
     await productPage.goto();
 }
 })
+
+test.only('should add first product from category to cart', async ({ page }) => {
+    const productPage = new ProductPage(page);
+    await productPage.goto();
+    await productPage.openFirstCategory();
+    if (await productPage.hasProducts()){
+        await productPage.addFirstProductToCart();
+    }
+    else{
+        await productPage.openFirstSubCategory();
+        await productPage.addFirstProductToCart();
+    } 
+});
 
