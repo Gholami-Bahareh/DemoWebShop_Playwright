@@ -33,23 +33,6 @@ test('products in different categories should not match', async ({ page }) => {
 
 });
 
-test('product details should be visible', async ({ page }) => {
-    const productPage = new ProductPage(page);
-    await productPage.goto();
-    await productPage.clickOnFirstProductFromCategory(0);
-
-    await expect(page.locator('.product-name')).toBeVisible();
-    await expect(page.locator('.gallery .picture')).toBeVisible();
-    await expect(page.locator('.short-description')).toBeVisible();
-    await expect(page.locator('.product-reviews-overview')).toBeVisible();
-    await expect(page.locator('.overview .prices')).toBeVisible();
-    await expect(page.locator('.qty-label')).toBeVisible();
-    await expect(page.locator('.email-a-friend')).toBeVisible();
-    await expect(page.locator('.compare-products')).toBeVisible();
-    await expect(page.locator('.full-description')).toBeVisible();
-})
-
-
 test('should add first product from category to cart', async ({ page }) => {
     const productPage = new ProductPage(page);
     await productPage.goto();

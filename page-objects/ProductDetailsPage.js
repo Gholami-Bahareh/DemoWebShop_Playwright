@@ -14,6 +14,11 @@ class ProductDetailsPage {
     this.emailAFriend = page.locator('.email-a-friend');
     this.compareProducts = page.locator('.compare-products');
     this.fullDescription = page.locator('.full-description');
+    this.cartQtyText = page.locator('.ico-cart .cart-qty');
+    this.addToCartButton = page.locator('.overview input[value="Add to cart"]');
+    this.notificationBar = page.locator('.bar-notification.success');
+    this.productRealPrice = page.locator('span[itemprop="price"]');
+    this.qntInput = page.locator('.qty-input');
     
     }
     
@@ -27,7 +32,31 @@ class ProductDetailsPage {
         await expect(this.compareProducts).toBeVisible();
         await expect(this.fullDescription).toBeVisible();
     }
-
+     
+    async getCartCount(){
+        const cartText = await this.cartQtyText.innerText();
+        const cartCount = parseInt(cartText.replace(/\D/g, ''));
+        return cartCount;
     }
+    
+    async addToCartFromDetailsPage() {
+        const cartCountBefore = await this.getCartCount();
+        await expect(this.addToCartButton).toBeVisible();
+        await this.addToCartButton.click();
+        await expect(this.notificationBar).toBeVisible();
+        await expect(this.cartQtyText).toHaveText(`(${cartCountBefore + 1})`);
+    }
+
+    async getProductPrice() {
+        const priceText = await this.productRealPrice.innerText();
+        const priceValue = parseFloat(priceText.replace(/[^0-9.-]+/g,""));
+        return priceValue;
+    }
+
+    async addMoreThanOneitemsToCart(N) {
+        await this.qntInput.fill(String(N));
+        await this.addToCartButton.click();
+    }
+}
 
 module.exports = { ProductDetailsPage };
