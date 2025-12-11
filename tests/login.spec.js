@@ -76,3 +76,9 @@ test('Forgot Password flow', async ({ page }) => {
 
 });
 
+test('test1DD_fill email&password without click login button', async ({ page }) => {
+    
+});
+
+
+

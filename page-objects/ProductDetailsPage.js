@@ -49,14 +49,17 @@ class ProductDetailsPage {
 
     async getProductPrice() {
         const priceText = await this.productRealPrice.innerText();
-        const priceValue = parseFloat(priceText.replace(/[^0-9.-]+/g,""));
-        return priceValue;
+        return parseFloat(priceText.replace(/[^0-9.-]+/g,""));
     }
 
-    async addMoreThanOneitemsToCart(N) {
+    async addNitemsToCart(N) {
         await this.qntInput.fill(String(N));
         await this.addToCartButton.click();
     }
+
+    async hasAddToCart() {
+    return await this.addToCartButton.isVisible();
+   }
 }
 
 module.exports = { ProductDetailsPage };

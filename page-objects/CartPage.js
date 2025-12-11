@@ -15,11 +15,9 @@ class CartPage {
         await this.page.goto('/cart');
     }
 
-    async getSubTotalPrice() {
-        // const priceText = await this.subTotal.innerText();
-        // const priceValue = parseFloat(priceText.replace(/[^0-9.-]+/g,""));
-        const text = await this.subTotal.textContent();
-    return parseFloat(text.trim());
+    async getCartSubTotal() {
+        const priceText = await this.subTotal.textContent();
+        return parseFloat(priceText.replace(/[^0-9.-]+/g,""));
     }
 
     }
