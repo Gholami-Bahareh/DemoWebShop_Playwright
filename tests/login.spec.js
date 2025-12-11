@@ -14,29 +14,40 @@ test('UI element should be visible', async ({ page }) => {
     await expect(loginPage.registerButton).toBeVisible();
 });
 
-test('Succesful Login', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
 
-    await loginPage.login('validemail@hotmail.com','123456');
-    await expect(page.locator('a[href="/logout"]')).toBeVisible();
+test.describe.only('test1DD_login with different email and password', () => {
     
+    test('Data Driven Login Test', async ({ page }) => {
+        const loginData = [{email: "validemail@hotmail.com", password: "wrongpass" , valid: false},
+                           {email: "", password: "", valid: false},
+                           {email: "notexicting@hotmail.com", password: "wrongpass" , valid: false},
+                           {email: "validemail@hotmail.com", password: "123456",valid: true}] ;
+        for (let i=0; i<loginData.length; i++){
+            const item = loginData[i];
+            const loginPage = new LoginPage(page);
+            const homePage = new HomePage(page);
+            await loginPage.goto();
+            await loginPage.login(item.email, item.password);
+
+            if(item.valid){
+                await expect(homePage.logoutLink).toBeVisible();
+                await homePage.logoutLink.click();
+            }
+            else{
+                await expect(loginPage.errorMessage).toBeVisible();
+            }
+        
+        }
 });
 
-test('Unsuccesful Login', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();
 
-    await loginPage.login('invalidemail@hotmail.com','123456');
-    await expect(loginPage.errorMessage).toBeVisible();
+    test('Login with invalid email format', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await loginPage.login('invalidemailformat','');
+        await expect(loginPage.invalidEmailMessage).toBeVisible();
 });
-
-test('Login with empty fields', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto();  
-
-    await loginPage.login('','');
-    await expect(loginPage.errorMessage).toBeVisible();
+    
 });
 
 test('Login and logout flow', async ({ page }) => {
@@ -54,13 +65,6 @@ test('Login and logout flow', async ({ page }) => {
 
 });
 
-test('Login with invalid email format', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goto(); 
-    
-    await loginPage.login('invalidemailformat','');
-    await expect(loginPage.invalidEmailMessage).toBeVisible();
-});
 
 test('Forgot Password flow', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -75,10 +79,4 @@ test('Forgot Password flow', async ({ page }) => {
     await expect(page.locator('div[class="result"]')).toHaveText('Email with instructions has been sent to you.')
 
 });
-
-test('test1DD_fill email&password without click login button', async ({ page }) => {
-    
-});
-
-
 

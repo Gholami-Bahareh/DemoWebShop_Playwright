@@ -62,7 +62,7 @@ test('default quantity should be 1', async ({ page }) => {
     await expect(qtyValue).toBe('1');
 })
 
-test.only('default quantity should be 1 (first product of each category)', async ({ page }) => {
+test('default quantity should be 1 (first product of each category)', async ({ page }) => {
     test.setTimeout(60000);
     const productPage = new ProductPage(page);
     const productDetailsPage = new ProductDetailsPage(page);
