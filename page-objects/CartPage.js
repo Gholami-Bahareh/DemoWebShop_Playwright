@@ -8,6 +8,11 @@ class CartPage {
     this.subTotal = page.locator('.cart-total tr:first-child .product-price');
     this.productNames = page.locator('.product-name');
     this.cartQuantity = page.locator('.ico-cart .cart-qty');
+    this.updateCartButton = page.locator('input[name="updatecart"]');
+    this.removeCheckboxes = page.locator('input[name="removefromcart"]');
+    this.shoppingCartLink = page.locator('.ico-cart .cart-label');
+    this.minicartLink = page.locator('.mini-shopping-cart');
+
 
     }
     
@@ -15,6 +20,8 @@ class CartPage {
     async goto() {
         await this.page.goto('/cart');
     }
+
+      
 
     async getCartSubTotal() {
         const priceText = await this.subTotal.textContent();
@@ -25,15 +32,31 @@ class CartPage {
     return await this.productNames.innerText();
    }
 
+   async getAllProductNames() {
+    const names = [];
+    const count = await this.productNames.count();
+    for (let i = 0; i < count; i++) {
+        names.push(await this.productNames.nth(i).innerText());
+    }
+    return names;
+    // returns an array of strings
+    }
+
    async cartIsEmpty(){
-    return await expect(this.cartQuantity).toHaveText(`0`);
+    return await this.cartQuantity.innerText() === '(0)';
+    //this returns true if cart is empty, false otherwise
+    //this method can be used in tests to check if the cart is empty
    }
+
 
    async emptyCart() {
-
-   }
-
-
-    }
+    if (!(await this.cartIsEmpty())) {
+        const itemCount = await this.removeCheckboxes.count();
+        for (let i = 0; i < itemCount; i++) {
+            await this.removeCheckboxes.nth(i).check();
+        }
+    await this.updateCartButton.click();
+   }}
+}
 
 module.exports = { CartPage };

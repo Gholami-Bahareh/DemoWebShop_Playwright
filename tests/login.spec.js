@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { LoginPage } = require('../page-objects/LoginPage');
 const { HomePage } = require('../page-objects/HomePage');
 
+
 test('UI element should be visible', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
@@ -79,4 +80,15 @@ test('Forgot Password flow', async ({ page }) => {
     await expect(page.locator('div[class="result"]')).toHaveText('Email with instructions has been sent to you.')
 
 });
+
+test.only('filan', async ({ page }) => {
+    const homePage = new HomePage(page);
+      
+    await homePage.goto();
+    await homePage.hoverOverCart();
+    await expect(homePage.minicartLink).toBeVisible();
+});
+
+
+   
 
