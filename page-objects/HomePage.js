@@ -9,6 +9,10 @@ class HomePage {
         
 
     }
+    //Methods / Functions
+    async logOut(){
+        await this.logoutLink.click();
+    }
 };
 
 module.exports = { HomePage };

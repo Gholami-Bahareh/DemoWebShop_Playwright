@@ -15,7 +15,7 @@ test('UI element should be visible', async ({ page }) => {
 });
 
 
-test.describe.only('test1DD_login with different email and password', () => {
+test.describe('test1DD_login with different email and password', () => {
     
     test('Data Driven Login Test', async ({ page }) => {
         const loginData = [{email: "validemail@hotmail.com", password: "wrongpass" , valid: false},

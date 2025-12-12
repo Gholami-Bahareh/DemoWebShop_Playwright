@@ -1,4 +1,6 @@
 const { expect } = require("allure-playwright");
+const { ProductDetailsPage } = require("./ProductDetailsPage");
+
 
 class ProductPage {
     constructor(page) {
@@ -11,6 +13,7 @@ class ProductPage {
     this.productItems = page.locator('.product-grid .item-box');
     this.cartQtyText = page.locator('.ico-cart .cart-qty')
     this.notificationBar = page.locator('.bar-notification.success')
+    this.addToCartButton = page.locator('input[value="Add to cart"]');
     // this.productPicture = page.locator('.product-grid .picture');
     // this.productTile = page.locator('.product-grid .details .product-title a');
     // this.productRating = page.locator('.product-grid .product-rating-box');
@@ -23,13 +26,13 @@ class ProductPage {
         await this.page.goto('/');
     }
 
-    async hasProducts() {
+    async hasCategoryProducts() {
         return await this.productItems.count() > 0;
     }
 
     async getFirstProductTitleFromCategory(categoryIndex){
         await this.categoryItems.nth(categoryIndex).click();
-        if (await this.hasProducts()){
+        if (await this.hasCategoryProducts()){
             return await this.productItems.first().locator('.details .product-title a').innerText();
         }
         else{
@@ -40,7 +43,7 @@ class ProductPage {
 
     async clickOnFirstProductFromCategory(categoryIndex){
         await this.categoryItems.nth(categoryIndex).click();
-        if (await this.hasProducts()){
+        if (await this.hasCategoryProducts()){
             await this.productItems.first().locator('.picture').click();
         }
         else{
@@ -74,6 +77,41 @@ class ProductPage {
         await first.locator('input[value="Add to cart"]').click();
         await expect(this.notificationBar).toBeVisible();
         await expect(this.cartQtyText).toHaveText(`(${cartCountBefore + 1})`);
+    }
+
+    async openRandomProductWithAddToCart(){
+        let productsFound = false;
+
+        while(!productsFound){
+        const categoryCount = await this.categoryItems.count()
+        const randomIndexCat = Math.floor(Math.random() * categoryCount);
+        await this.categoryItems.nth(randomIndexCat).click();
+
+        if(!(await this.hasCategoryProducts())){
+            const subCategoryCount = await this.subCategoryItems.count()
+            const randomIndexSubCat = Math.floor(Math.random() * subCategoryCount);
+            await this.subCategoryItems.nth(randomIndexSubCat).click();
+        }
+
+        const productsCount = await this.productItems.count();
+        const productsWithAddToCart = [];
+
+        for (let i = 0; i < productsCount; i++) {
+            if (await this.productItems.nth(i).locator('input[value="Add to cart"]').isVisible()) {
+                productsWithAddToCart.push(i);
+                }
+            }
+
+        if (productsWithAddToCart.length > 0) {
+            const randomProductIndex = productsWithAddToCart[Math.floor(Math.random() * productsWithAddToCart.length)];
+            await this.productItems.nth(randomProductIndex).locator('.picture').click();
+            productsFound = true;
+            }
+            else {
+                await this.goto();
+            }
+        }
+        return new ProductDetailsPage(this.page);
     }
 }
 

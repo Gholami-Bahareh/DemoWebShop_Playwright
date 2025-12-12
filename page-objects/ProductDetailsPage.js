@@ -60,6 +60,14 @@ class ProductDetailsPage {
     async hasAddToCart() {
     return await this.addToCartButton.isVisible();
    }
+
+   async getProductName() {
+    return await this.productName.innerText();
+   }
+
+   async addToCart(){
+    await this.addToCartButton.click();
+   }
 }
 
 module.exports = { ProductDetailsPage };
