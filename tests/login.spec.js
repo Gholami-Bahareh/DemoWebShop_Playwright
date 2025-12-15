@@ -81,13 +81,6 @@ test('Forgot Password flow', async ({ page }) => {
 
 });
 
-test.only('filan', async ({ page }) => {
-    const homePage = new HomePage(page);
-      
-    await homePage.goto();
-    await homePage.hoverOverCart();
-    await expect(homePage.minicartLink).toBeVisible();
-});
 
 
    

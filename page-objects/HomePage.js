@@ -7,7 +7,8 @@ class HomePage {
         this.accountLink = page.locator('div[class="header-links"] a[href="/customer/info"]');
         this.loginLink = page.locator('a[href="/login"]');
         this.shoppingCartLink = page.locator('.ico-cart .cart-label');
-        this.minicartLink = page.locator('.mini-shopping-cart');
+        this.minishoppingcartLink = page.locator('.mini-shopping-cart');
+        this.minishoppingcartcontent = page.locator('.mini-shopping-cart .count')
         
 
     }
