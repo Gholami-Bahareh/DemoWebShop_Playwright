@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 const { HomePage } = require('../page-objects/HomePage');
 
 
-test.only('Guest sees empty mini cart on hover', async ({ page }) => {
+test('Guest sees empty mini cart on hover', async ({ page }) => {
     const homePage = new HomePage(page);
       
     await homePage.goto();

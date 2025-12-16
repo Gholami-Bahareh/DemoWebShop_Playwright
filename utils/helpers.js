@@ -23,7 +23,11 @@ function randomPassword() {
     return password;
 
 }
-module.exports = { randomEmail , randomPassword };
+
+function toTitleCase(text) {
+  return text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
+module.exports = { randomEmail , randomPassword , toTitleCase };
 
 
 
