@@ -15,6 +15,10 @@ class ProductPage {
     this.notificationBar = page.locator('.bar-notification.success')
     this.addToCartButton = page.locator('input[value="Add to cart"]');
     this.breadcrumb = page.locator('.breadcrumb');
+    this.breadcrumbCurrentItem = page.locator('.current-item');
+    this.productSorting = page.locator('.product-sorting');
+    this.productViewMode = page.locator('.product-viewmode');
+    this.productsPageSize = page.locator('.product-page-size');
     // this.productPicture = page.locator('.product-grid .picture');
     // this.productTile = page.locator('.product-grid .details .product-title a');
     // this.productRating = page.locator('.product-grid .product-rating-box');

@@ -8,18 +8,24 @@ class HeaderComponent {
 
     //Locators 
     this.headerMenuItems = page.locator('.top-menu>li>a');
+    this.headerSubMenuItems = page.locator('.top-menu > li:nth-child(i) > ul> li > a');
     this.pageTitle = page.locator('.page-title h1');
     
     }
     
     //Methods / Functions
-    // async 
-}
+    // async clickOnHeaderSubMenuItemByIndex(index) {  
+    //     await this.page.locator('.top-menu > li:nth-child(index) > ul> li > a').click();
+    // };
 
+    clickOnHeaderSubMenuItemByIndex(parentIndex, subIndex) {
+        return this.page.locator('.top-menu > li')
+        .nth(parentIndex)
+        .locator('ul > li > a')
+        .nth(subIndex)
+        .click();
+    }
+
+
+}
 module.exports = { HeaderComponent };
-       
-       
-       
-       
-    //    const category_names = ["Computers", "Electronics", "Apparel & Shoes", "Digital downloads", "Books", "Jewelry", "Gift Cards"];
-       

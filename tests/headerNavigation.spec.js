@@ -13,15 +13,33 @@ test.only('Header Navigation Test', async ({ page }) => {
     expect(await categoryNames.count()).toBe(7);
     for (let i = 0; i < await categoryNames.count(); i++) {
         await categoryNames.nth(i).click();
-        // const titleText = await headerComponent.pageTitle.innerText();
+        if(!(await productPage.hasCategoryProducts())){
+            for(let j=0; j < await productPage.subCategoryItems.count(); j++){
+                
+                await headerComponent.clickOnHeaderSubMenuItemByIndex(i, j);
+                await expect(headerComponent.pageTitle).toBeVisible();
+        await expect(productPage.productSorting).toBeVisible();
+        await expect(productPage.productViewMode).toBeVisible();
+        await expect(productPage.productsPageSize).toBeVisible();
+        await expect(productPage.breadcrumb).toBeVisible();
+        const titleText1 = await headerComponent.pageTitle.innerText();
+        await expect(productPage.breadcrumbCurrentItem).toHaveText(titleText1);
+        await homePage.goto();
+        await categoryNames.nth(i).click();
+
+        }}
+        else{
+        await expect(headerComponent.pageTitle).toBeVisible();
+        await expect(productPage.productSorting).toBeVisible();
+        await expect(productPage.productViewMode).toBeVisible();
+        await expect(productPage.productsPageSize).toBeVisible();
+        await expect(productPage.breadcrumb).toBeVisible();
+        const titleText = await headerComponent.pageTitle.innerText();
+        await expect(productPage.breadcrumbCurrentItem).toHaveText(titleText);
+
         // await expect(headerComponent.pageTitle).toContainText(await toTitleCase(titleText));
         //One of menu names and page titles dont follow the above rule! ("Digital downloads" vs "Digital Downloads")
-        await expect(productPage.breadcrumb).toBeVisible();
-        
-        await homePage.goto();
-        // console.log(await categoryNames.nth(i).innerText());
+        await homePage.goto();}
     }   
-  
-    // console.log(categoryNames);
 
 });
