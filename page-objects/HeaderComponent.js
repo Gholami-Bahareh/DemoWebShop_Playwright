@@ -14,11 +14,8 @@ class HeaderComponent {
     }
     
     //Methods / Functions
-    // async clickOnHeaderSubMenuItemByIndex(index) {  
-    //     await this.page.locator('.top-menu > li:nth-child(index) > ul> li > a').click();
-    // };
-
-    clickOnHeaderSubMenuItemByIndex(parentIndex, subIndex) {
+    
+    async clickOnHeaderSubMenuItemByIndex(parentIndex, subIndex) {
         return this.page.locator('.top-menu > li')
         .nth(parentIndex)
         .locator('ul > li > a')

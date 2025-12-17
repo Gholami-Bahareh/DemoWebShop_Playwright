@@ -17,6 +17,9 @@ class ProductPage {
     this.breadcrumb = page.locator('.breadcrumb');
     this.breadcrumbCurrentItem = page.locator('.current-item');
     this.productSorting = page.locator('.product-sorting');
+    this.sortByDropdown = page.locator('#products-orderby');
+    this.sortByDropdownOptions = page.locator('#products-orderby option');
+    this.sortByDropdownSelectedOption = page.locator('#products-orderby option[selected="selected"]')
     this.productViewMode = page.locator('.product-viewmode');
     this.productsPageSize = page.locator('.product-page-size');
     // this.productPicture = page.locator('.product-grid .picture');
@@ -118,6 +121,64 @@ class ProductPage {
         }
         return new ProductDetailsPage(this.page);
     }
+
+    async assertProductListingPage(productPage,titleText) {
+        await expect(productPage.productSorting).toBeVisible();
+        await expect(productPage.productViewMode).toBeVisible();
+        await expect(productPage.productsPageSize).toBeVisible();
+        await expect(productPage.breadcrumb).toBeVisible();
+        await expect(productPage.breadcrumbCurrentItem).toHaveText(titleText);
+        
+    }
+
+    async  openRandomProductlistContainingMin2items(){
+        let productListFound = false;
+
+        while(!productListFound){
+            const categoryCount = await this.categoryItems.count()
+            const randomIndexCat = Math.floor(Math.random() * categoryCount);
+            await this.categoryItems.nth(randomIndexCat).click();
+            if(!(await this.hasCategoryProducts())){
+                const subCategoryCount = await this.subCategoryItems.count()
+                const randomIndexSubCat = Math.floor(Math.random() * subCategoryCount);
+                await this.subCategoryItems.nth(randomIndexSubCat).click();
+            }
+            const productCount = await this.productItems.count();
+            if (productCount >=2){
+                productListFound = true;
+            }
+            else {
+                await this.goto();
+            }
+        }
+        return new ProductPage(this.page);
+   }
+
+   async productNameList(){
+        const productCount = await this.productItems.count();
+        const productNames = [];
+        for(let i=0; i<productCount;i++){
+            const name = await this.productItems.nth(i).locator('.details .product-title a').innerText();
+            productNames.push(name);
+        }
+        return productNames;
+
+   }
+
+   async sortingBy(i){
+    const option = this.sortByDropdownOptions.nth(i)
+    const value = await option.getAttribute('value');
+    await this.sortByDropdown.selectOption(value);
+   }
+
+   async getSortByDropdownOptionsText(i){
+    const option = this.sortByDropdownOptions.nth(i)
+    return await option.innerText();
+   }
+
+
+
 }
+
 
 module.exports = { ProductPage };
