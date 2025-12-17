@@ -46,7 +46,7 @@ test('should add first product from category to cart', async ({ page }) => {
     } 
 });
 
-test.only('sort_by_dropdown_ui_behavior', async ({ page }) => {
+test('sort_by_dropdown_ui_behavior', async ({ page }) => {
     const productPage = new ProductPage(page);
     //options: 0: Position, 1: Name: A to Z, 2: Name: Z to A, 3: Price: Low to High, 4: Price: High to Low, 5: Created on
     //0: Position is defaut and is the same as 1: Name: A to Z, So we will test from 2 to 5
@@ -87,4 +87,34 @@ test.only('sort_by_dropdown_ui_behavior', async ({ page }) => {
     
     }
 
+});
+
+test.only('productsPageSize_ui_behavior', async ({ page }) => {
+    const productPage = new ProductPage(page);
+    const productPageListing = await productPage.openRandomProductlistContaining8itemsAndPaging();
+    const pageURLBeforeSort = page.url();
+
+    await productPageListing.chooseItemsPerPage(0); // 4 items per page
+
+    // Wait for UI update
+    await expect(productPageListing.productItems.first()).toBeVisible();
+
+    await expect(await productPageListing.getItemPerPageOptionText(0)).toContain('4'); // verify selected option is 4 items per page
+    await expect(await productPageListing.productItems.count()).toBeLessThanOrEqual(4);
+    const pageURLAfterFirstChange = page.url();
+    await expect(pageURLAfterFirstChange).not.toEqual(pageURLBeforeSort);
+
+
+    await productPageListing.chooseItemsPerPage(2); // 12 items per page
+
+    // Wait for UI update
+    await expect(productPageListing.productItems.first()).toBeVisible();
+    
+    await expect(await productPageListing.getItemPerPageOptionText(2)).toContain('12'); // verify selected option is 12 items per page
+    await expect(await productPageListing.productItems.count()).toBeLessThanOrEqual(12);
+    await expect(await productPageListing.productItems.count()).toBeGreaterThan(8);
+    const pageURLAfterSecondChange = page.url();
+    await expect(pageURLAfterSecondChange).not.toEqual(pageURLBeforeSort);
+    await expect(pageURLAfterSecondChange).not.toEqual(pageURLAfterFirstChange);
+    
 });

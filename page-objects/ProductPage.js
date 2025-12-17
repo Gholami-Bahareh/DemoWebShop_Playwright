@@ -22,6 +22,10 @@ class ProductPage {
     this.sortByDropdownSelectedOption = page.locator('#products-orderby option[selected="selected"]')
     this.productViewMode = page.locator('.product-viewmode');
     this.productsPageSize = page.locator('.product-page-size');
+    this.productPageSizeDropdown = page.locator('#products-pagesize');
+    this.productPageSizeDropdownOptions = page.locator('#products-pagesize option');
+    this.pagingSection = page.locator('.pager');
+    
     // this.productPicture = page.locator('.product-grid .picture');
     // this.productTile = page.locator('.product-grid .details .product-title a');
     // this.productRating = page.locator('.product-grid .product-rating-box');
@@ -175,6 +179,46 @@ class ProductPage {
     const option = this.sortByDropdownOptions.nth(i)
     return await option.innerText();
    }
+
+   async  openRandomProductlistContaining8itemsAndPaging(){
+        await this.goto();
+        let productListFound = false;
+
+        while(!productListFound){
+            const categoryCount = await this.categoryItems.count()
+            const randomIndexCat = Math.floor(Math.random() * categoryCount);
+            await this.categoryItems.nth(randomIndexCat).click();
+            if(!(await this.hasCategoryProducts())){
+                const subCategoryCount = await this.subCategoryItems.count()
+                const randomIndexSubCat = Math.floor(Math.random() * subCategoryCount);
+                await this.subCategoryItems.nth(randomIndexSubCat).click();
+            }
+            const productCount = await this.productItems.count();
+            if (productCount ===8 && await this.pagingSection.isVisible()){
+                productListFound = true;
+            }
+            else {
+                await this.goto();
+            }
+        }
+        return new ProductPage(this.page);
+   }
+
+   async chooseItemsPerPage(i){
+    const option = this.productPageSizeDropdownOptions.nth(i)
+    const value = await option.getAttribute('value');
+    await this.productPageSizeDropdown.selectOption(value);
+   }
+
+   async getItemPerPageOptionText(i){
+    const option = this.productPageSizeDropdownOptions.nth(i)
+    return await option.innerText();
+   }
+
+
+
+   
+
 
 
 
