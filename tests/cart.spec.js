@@ -52,6 +52,7 @@ test('empty if it is not empty', async ({ page }) => {
     await cartPage.goto();
     await cartPage.emptyCart();
     const empty =  await cartPage.cartIsEmpty();
+    expect(cartPage.cartIsEmpty()).toBeTruthy();
     console.log("Is cart empty after emptying?: " + empty);
 
 });
