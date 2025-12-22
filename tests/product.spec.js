@@ -119,7 +119,7 @@ test('productsPageSize_ui_behavior', async ({ page }) => {
     
 });
 
-test.only('productsPageView_Grid/List_ui_behavior', async ({ page }) => {
+test('productsPageView_Grid/List_ui_behavior', async ({ page }) => {
     const productPage = new ProductPage(page);
     await productPage.goto();
     const productListPage = await productPage.openRandomProductlistContainingMin2items();
@@ -136,7 +136,7 @@ test.only('productsPageView_Grid/List_ui_behavior', async ({ page }) => {
 
     const pageURLAfterChange = page.url();
     const productCountAfterChange = await productListPage.productItemsInList.count();
-    await expect(await productListPage.productItems).toBeHidden();
+    await expect( productListPage.productItems).toBeHidden();
     await expect(pageURLAfterChange).not.toEqual(pageURLBeforeChange);
     await expect(await productListPage.getViewModeOptionText(1)).toContain('List');
     await expect(productCountAfterChange).toEqual(productCountBeforeChange);
@@ -154,3 +154,44 @@ test.only('productsPageView_Grid/List_ui_behavior', async ({ page }) => {
 
 });
 
+test.only('productsPagination_ui_behavior', async ({ page }) => {
+    const productPage = new ProductPage(page);
+    await page.goto('/apparel-shoes');
+
+    await productPage.chooseItemsPerPage(0);
+    await expect(productPage.pagingSection).toBeVisible();
+    await expect(productPage.nextPageButton).toBeVisible();
+    await expect(productPage.currentPaging).toHaveText('1');
+    const pageURLBeforeChange = page.url();
+
+    await productPage.clickOnNextPage();
+
+    // Wait for UI update
+    
+    await expect(productPage.currentPaging).toHaveText('2');
+    const pageURLAfterFirstChange = page.url();
+    expect(pageURLAfterFirstChange).not.toEqual(pageURLBeforeChange);
+
+    await productPage.clickOnNextPage();
+
+    // Wait for UI update
+    await expect(productPage.productItems.first()).toBeVisible();
+    await expect(productPage.currentPaging).toHaveText('3');
+    const pageURLAfterSecondChange = page.url();
+    expect(pageURLAfterSecondChange).not.toEqual(pageURLAfterFirstChange);
+    expect(pageURLAfterSecondChange).not.toEqual(pageURLBeforeChange);
+
+    await productPage.clickOnPreviousPage();
+    await expect(productPage.productItems.first()).toBeVisible();
+    await expect(productPage.currentPaging).toHaveText('2');
+    const pageURLAfterThirdChange = page.url();
+    expect(pageURLAfterThirdChange).toEqual(pageURLAfterFirstChange);
+    expect(pageURLAfterThirdChange).not.toEqual(pageURLAfterSecondChange);
+    expect(pageURLAfterThirdChange).not.toEqual(pageURLBeforeChange);
+
+
+
+
+
+
+})

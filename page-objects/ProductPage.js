@@ -25,6 +25,10 @@ class ProductPage {
     this.productPageSizeDropdown = page.locator('#products-pagesize');
     this.productPageSizeDropdownOptions = page.locator('#products-pagesize option');
     this.pagingSection = page.locator('.pager');
+    this.pagingSectionItems = page.locator('.pager li');
+    this.currentPaging = page.locator('.pager li.current-page');
+    this.nextPageButton = page.locator('.next-page a');
+    this.previousPageButton = page.locator('.previous-page a');
     this.productViewMode = page.locator('.product-viewmode');
     this.productViewModeDropDown = page.locator('#products-viewmode')
     this.productsViewModeDropDownOptions = page.locator('#products-viewmode option');
@@ -229,6 +233,14 @@ class ProductPage {
    async getViewModeOptionText(i){
     const option =  this.productsViewModeDropDownOptions.nth(i)
     return await option.innerText();
+   }
+
+   async clickOnNextPage(){
+    await this.nextPageButton.click()
+   }
+
+   async clickOnPreviousPage(){
+    await this.previousPageButton.click()
    }
 
 
