@@ -89,7 +89,7 @@ test('sort_by_dropdown_ui_behavior', async ({ page }) => {
 
 });
 
-test.only('productsPageSize_ui_behavior', async ({ page }) => {
+test('productsPageSize_ui_behavior', async ({ page }) => {
     const productPage = new ProductPage(page);
     const productPageListing = await productPage.openRandomProductlistContaining8itemsAndPaging();
     const pageURLBeforeSort = page.url();
@@ -110,7 +110,7 @@ test.only('productsPageSize_ui_behavior', async ({ page }) => {
     // Wait for UI update
     await expect(productPageListing.productItems.first()).toBeVisible();
     
-    await expect(await productPageListing.getItemPerPageOptionText(2)).toContain('12'); // verify selected option is 12 items per page
+    expect(await productPageListing.getItemPerPageOptionText(2)).toContain('12'); // verify selected option is 12 items per page
     await expect(await productPageListing.productItems.count()).toBeLessThanOrEqual(12);
     await expect(await productPageListing.productItems.count()).toBeGreaterThan(8);
     const pageURLAfterSecondChange = page.url();
@@ -118,3 +118,39 @@ test.only('productsPageSize_ui_behavior', async ({ page }) => {
     await expect(pageURLAfterSecondChange).not.toEqual(pageURLAfterFirstChange);
     
 });
+
+test.only('productsPageView_Grid/List_ui_behavior', async ({ page }) => {
+    const productPage = new ProductPage(page);
+    await productPage.goto();
+    const productListPage = await productPage.openRandomProductlistContainingMin2items();
+    const pageURLBeforeChange = page.url();
+    const productCountBeforeChange = await productListPage.productItems.count();
+    expect(await productListPage.hasCategoryProducts()).toBeTruthy();
+    expect(await productListPage.productItemsInList.count()>0).toBeFalsy();
+    expect(await productListPage.getViewModeOptionText(0)).toContain('Grid'); // verify Grid View option exists
+
+    // Switch to List View
+    await productListPage.chooseViewMode(1); // List View
+    // Wait for UI update
+    await expect(await productListPage.productItemsInList.first()).toBeVisible();
+
+    const pageURLAfterChange = page.url();
+    const productCountAfterChange = await productListPage.productItemsInList.count();
+    await expect(await productListPage.productItems).toBeHidden();
+    await expect(pageURLAfterChange).not.toEqual(pageURLBeforeChange);
+    await expect(await productListPage.getViewModeOptionText(1)).toContain('List');
+    await expect(productCountAfterChange).toEqual(productCountBeforeChange);
+    
+
+    // Switch back to Grid View
+    await productListPage.chooseViewMode(0); // Grid View
+    // Wait for UI update
+    await expect(await productListPage.productItems.first()).toBeVisible(); 
+    const pageURLAfterSecondChange = page.url();
+    await expect(pageURLAfterSecondChange).not.toEqual(pageURLBeforeChange);
+    await expect(pageURLAfterSecondChange).not.toEqual(pageURLAfterChange);
+    await expect(await productListPage.getViewModeOptionText(0)).toContain('Grid');
+    await expect(productCountBeforeChange).toEqual(await productListPage.productItems.count());
+
+});
+

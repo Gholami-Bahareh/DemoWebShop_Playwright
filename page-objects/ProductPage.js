@@ -11,6 +11,7 @@ class ProductPage {
     this.categoryItems = page.locator('.block.block-category-navigation li a');
     this.subCategoryItems = page.locator('.block.block-category-navigation li.active li a');
     this.productItems = page.locator('.product-grid .item-box');
+    this.productItemsInList = page.locator('.product-list .item-box');
     this.cartQtyText = page.locator('.ico-cart .cart-qty')
     this.notificationBar = page.locator('.bar-notification.success')
     this.addToCartButton = page.locator('input[value="Add to cart"]');
@@ -20,11 +21,14 @@ class ProductPage {
     this.sortByDropdown = page.locator('#products-orderby');
     this.sortByDropdownOptions = page.locator('#products-orderby option');
     this.sortByDropdownSelectedOption = page.locator('#products-orderby option[selected="selected"]')
-    this.productViewMode = page.locator('.product-viewmode');
     this.productsPageSize = page.locator('.product-page-size');
     this.productPageSizeDropdown = page.locator('#products-pagesize');
     this.productPageSizeDropdownOptions = page.locator('#products-pagesize option');
     this.pagingSection = page.locator('.pager');
+    this.productViewMode = page.locator('.product-viewmode');
+    this.productViewModeDropDown = page.locator('#products-viewmode')
+    this.productsViewModeDropDownOptions = page.locator('#products-viewmode option');
+
     
     // this.productPicture = page.locator('.product-grid .picture');
     // this.productTile = page.locator('.product-grid .details .product-title a');
@@ -42,6 +46,7 @@ class ProductPage {
         return await this.productItems.count() > 0;
     }
 
+   
     async getFirstProductTitleFromCategory(categoryIndex){
         await this.categoryItems.nth(categoryIndex).click();
         if (await this.hasCategoryProducts()){
@@ -212,6 +217,17 @@ class ProductPage {
 
    async getItemPerPageOptionText(i){
     const option = this.productPageSizeDropdownOptions.nth(i)
+    return await option.innerText();
+   }
+
+   async chooseViewMode(i){
+    const option = this.productsViewModeDropDownOptions.nth(i)
+    const value = await option.getAttribute('value');
+    await this.productViewModeDropDown.selectOption(value);
+   }
+
+   async getViewModeOptionText(i){
+    const option =  this.productsViewModeDropDownOptions.nth(i)
     return await option.innerText();
    }
 
