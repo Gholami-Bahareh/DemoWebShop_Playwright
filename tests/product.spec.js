@@ -154,7 +154,7 @@ test('productsPageView_Grid/List_ui_behavior', async ({ page }) => {
 
 });
 
-test.only('productsPagination_ui_behavior', async ({ page }) => {
+test('productsPagination_ui_behavior', async ({ page }) => {
     const productPage = new ProductPage(page);
     await page.goto('/apparel-shoes');
 

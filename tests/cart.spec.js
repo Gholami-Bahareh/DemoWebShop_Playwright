@@ -2,7 +2,6 @@ const { test, expect, mergeExpects } = require('@playwright/test');
 const { LoginPage } = require('../page-objects/LoginPage');
 const { HomePage } = require('../page-objects/HomePage');
 const {ProductPage} = require('../page-objects/ProductPage');
-const { ProductDetailsPage } = require('../page-objects/ProductDetailsPage');
 const { CartPage } = require('../page-objects/CartPage');
 
 test('Product (1product) Existence After Logout Login', async ({ page }) => {
@@ -51,9 +50,9 @@ test('empty if it is not empty', async ({ page }) => {
     await loginPage.login('validemail@hotmail.com','123456');
     await cartPage.goto();
     await cartPage.emptyCart();
-    const empty =  await cartPage.cartIsEmpty();
+    // const empty =  await cartPage.cartIsEmpty();
     expect(cartPage.cartIsEmpty()).toBeTruthy();
-    console.log("Is cart empty after emptying?: " + empty);
+    // console.log("Is cart empty after emptying?: " + empty);
 
 });
 

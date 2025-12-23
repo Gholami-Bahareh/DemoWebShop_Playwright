@@ -9,6 +9,7 @@ class HomePage {
         this.shoppingCartLink = page.locator('.ico-cart .cart-label');
         this.minishoppingcartLink = page.locator('.mini-shopping-cart');
         this.minishoppingcartcontent = page.locator('.mini-shopping-cart .count')
+        this.cartQuantity = page.locator('.ico-cart .cart-qty');
         
 
     }
@@ -24,6 +25,12 @@ class HomePage {
     async hoverOverCart() {
         await this.shoppingCartLink.hover();
     } 
+
+    async cartIsEmpty(){
+    return await this.cartQuantity.innerText() === '(0)';
+    //this returns true if cart is empty, false otherwise
+    //this method can be used in tests to check if the cart is empty
+   }
 };
 
 module.exports = { HomePage };

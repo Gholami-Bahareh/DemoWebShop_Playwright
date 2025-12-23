@@ -20,6 +20,7 @@ class ProductDetailsPage {
     this.productRealPrice = page.locator('span[itemprop="price"]');
     this.qntInput = page.locator('.qty-input');
     
+    
     }
     
     //Methods / Functions

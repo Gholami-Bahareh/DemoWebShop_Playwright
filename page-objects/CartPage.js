@@ -12,6 +12,8 @@ class CartPage {
     this.removeCheckboxes = page.locator('input[name="removefromcart"]');
     this.shoppingCartLink = page.locator('.ico-cart .cart-label');
     this.minicartLink = page.locator('.mini-shopping-cart');
+    this.termsofserviceCheckbox = page.locator('.terms-of-service #termsofservice')
+    this.checkoutButton = page.locator('.checkout-buttons #checkout');
 
 
     }
@@ -57,6 +59,15 @@ class CartPage {
         }
     await this.updateCartButton.click();
    }}
+
+   async seleacceptTermsOfService(){
+    await this.termsofserviceCheckbox.click();
+   }
+
+   async clickOnCheckoutButton(){
+    await this.checkoutButton.click();
+   }
+
 }
 
 module.exports = { CartPage };
