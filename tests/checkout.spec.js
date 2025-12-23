@@ -37,6 +37,18 @@ test.only('logged_in_user_can_successfully_complete_checkout',async ({ page }) =
     expect(pageUrlAfterCheckout).toContain('checkout');
     await expect(checkoutPage.pageTitle).toContainText('Checkout');
 
+    //Billing address
+    await checkoutPage.billingAddress.selectOption("New Address")
+    await checkoutPage.fillBillingNewAddressFields();
+    await checkoutPage.billingContibueButton.click();
+    await page.waitForLoadState('networkidle');
+    await checkoutPage.shippingContibueButton.click();
+    await page.waitForLoadState('networkidle');
+    
+
+
+
+
     
     
 

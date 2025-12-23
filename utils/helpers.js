@@ -24,10 +24,22 @@ function randomPassword() {
 
 }
 
+function randomString(qnt) {
+    const chr = "abcdefghijklmnopqrstuvwxyz123456789";
+    let randomString = "";
+
+    for (let i = 0; i < qnt; i++) {
+        const index = Math.floor(Math.random() * chr.length);
+        randomString += chr[index];
+    }
+    return randomString;
+
+}
+
 function toTitleCase(text) {
   return text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
-module.exports = { randomEmail , randomPassword , toTitleCase };
+module.exports = { randomEmail , randomPassword , randomString , toTitleCase };
 
 
 
