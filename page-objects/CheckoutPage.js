@@ -20,6 +20,10 @@ class CheckoutPage {
     this.billingNewAddressPhoneNumber = page.locator('#BillingNewAddress_PhoneNumber');
     this.billingContibueButton = page.locator('#billing-buttons-container input');
     this.shippingContibueButton = page.locator('#shipping-buttons-container input');
+    this.shippingMethodContibueButton = page.locator('.button-1.shipping-method-next-step-button');
+    this.paymentMethodContibueButton = page.locator('.button-1.payment-method-next-step-button');
+    this.paymentInformationContibueButton = page.locator('.button-1.payment-info-next-step-button');
+    this.confirmOrderContibueButton = page.locator('.button-1.confirm-order-next-step-button');
 
 
 
@@ -40,6 +44,21 @@ class CheckoutPage {
         await this.billingNewAddressPhoneNumber.fill(randomString(6));
 
     }
+
+    async selectShippingMethod(option) {
+        await this.page.getByLabel(option).check();
+        await this.shippingMethodContibueButton.click();
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    async selectPaymentMethod(option) {
+        await this.page.getByLabel(option).check();
+        await this.paymentMethodContibueButton.click();
+        await this.page.waitForLoadState('networkidle');
+    }
+
+
+    
 
 
 
