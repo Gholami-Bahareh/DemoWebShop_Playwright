@@ -29,6 +29,7 @@ class CheckoutPage {
     this.billingInfoSectionInConfirmOrder = page.locator('.billing-info');
     this.shippingInfoSectionInConfirmOrder = page.locator('.shipping-info');
     this.orderProcessedSuccessfullyMessage = page.locator('div.title strong');
+    this.checkoutAsGuestButton = page.locator('.button-1.checkout-as-guest-button');
 
 
 
