@@ -32,33 +32,26 @@ test.only('logged_in_user_can_successfully_complete_checkout',async ({ page }) =
     await cartPage.seleacceptTermsOfService();
     await cartPage.clickOnCheckoutButton();
 
-    const pageUrlAfterCheckout = page.url();
-    console.log(pageUrlAfterCheckout);
-    expect(pageUrlAfterCheckout).toContain('checkout');
+    await expect(page).toHaveURL(/checkout/);
     await expect(checkoutPage.pageTitle).toContainText('Checkout');
 
     //checkout page
     await checkoutPage.billingAddress.selectOption("New Address")
     await checkoutPage.fillBillingNewAddressFields();
-    await checkoutPage.billingContibueButton.click();
-    await page.waitForLoadState('networkidle');
     await checkoutPage.shippingContibueButton.click();
     await page.waitForLoadState('networkidle');
-    await checkoutPage.selectShippingMethod('2nd Day Air (0.00)');
+    await checkoutPage.selectShippingMethod('Ground (0.00)');
     await checkoutPage.selectPaymentMethod('Check / Money Order (5.00)');
     await checkoutPage.paymentInformationContibueButton.click();
     await page.waitForLoadState('networkidle');
+    await expect(checkoutPage.billingInfoSectionInConfirmOrder).toBeVisible();
+    await expect(checkoutPage.shippingInfoSectionInConfirmOrder).toBeVisible();
+    await expect(checkoutPage.checkoutTotalPriceSection).toBeVisible();
+    await expect(checkoutPage.checkoutCartItemRows).toContainText(productName)
     await checkoutPage.confirmOrderContibueButton.click();
     await page.waitForLoadState('networkidle');
-
-    
-
-
-
-
-
-
-    
-    
+    await expect(checkoutPage.orderProcessedSuccessfullyMessage).toHaveText('Your order has been successfully processed!')
+    await expect(page).toHaveURL('/checkout/completed/');
+    await expect(cartPage.cartQuantity).toHaveText('(0)');
 
 });

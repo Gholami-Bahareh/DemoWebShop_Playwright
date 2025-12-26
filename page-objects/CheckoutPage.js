@@ -24,6 +24,12 @@ class CheckoutPage {
     this.paymentMethodContibueButton = page.locator('.button-1.payment-method-next-step-button');
     this.paymentInformationContibueButton = page.locator('.button-1.payment-info-next-step-button');
     this.confirmOrderContibueButton = page.locator('.button-1.confirm-order-next-step-button');
+    this.checkoutTotalPriceSection = page.locator('.cart-total');
+    this.checkoutCartItemRows = page.locator('.cart-item-row a');
+    this.billingInfoSectionInConfirmOrder = page.locator('.billing-info');
+    this.shippingInfoSectionInConfirmOrder = page.locator('.shipping-info');
+    this.orderProcessedSuccessfullyMessage = page.locator('div.title strong');
+
 
 
 
@@ -42,7 +48,8 @@ class CheckoutPage {
         await this.billingNewAddressAddress1.fill(randomString(6));
         await this.billingNewAddressZipPostalCode.fill(randomString(6));
         await this.billingNewAddressPhoneNumber.fill(randomString(6));
-
+        await this.billingContibueButton.click();
+        await this.page.waitForLoadState('networkidle');
     }
 
     async selectShippingMethod(option) {
