@@ -30,6 +30,20 @@ class CheckoutPage {
     this.shippingInfoSectionInConfirmOrder = page.locator('.shipping-info');
     this.orderProcessedSuccessfullyMessage = page.locator('div.title strong');
     this.checkoutAsGuestButton = page.locator('.button-1.checkout-as-guest-button');
+    // this.
+    this.billingNewAddressFirstNameError =page.locator('span[data-valmsg-for="BillingNewAddress.FirstName"]');
+    this.billingNewAddressLastNameError = page.locator('span[data-valmsg-for="BillingNewAddress.LastName"]');
+    this.billingNewAddressEmailError = page.locator('span[data-valmsg-for="BillingNewAddress.Email"]');
+    this.billingNewAddressCountryDropdownError = page.locator('span[data-valmsg-for="BillingNewAddress.CountryId"]');
+    this.billingNewAddressCityError = page.locator('span[data-valmsg-for="BillingNewAddress.City"]');
+    this.billingNewAddressAddress1Error = page.locator('span[data-valmsg-for="BillingNewAddress.Address1"]');
+    this.billingNewAddressZipPostalCodeError = page.locator('span[data-valmsg-for="BillingNewAddress.ZipPostalCode"]');
+    this.billingNewAddressPhoneNumberError = page.locator('span[data-valmsg-for="BillingNewAddress.PhoneNumber"]');
+    this.selectShippingAddressSection = page.locator('.section.select-shipping-address');
+    this.registerButtonForGuestUser = page.locator('.button-1.register-button');
+    this.emailFieldInCheckoutasguest = page.locator('#Email');
+    this.passwordlFieldInCheckoutasguest = page.locator('#Password');
+
 
 
 
